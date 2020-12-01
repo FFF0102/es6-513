@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./js/jquery-3.5.1/jquery-3.5.1.min.js"></script>
+    <title>旅游列表</title>
+    <style>
+        #box {
+            border: 1px solid pink;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>旅游列表</h2>
+    <ul id="box">
+
+    </ul>
+</body>
+<script>
+    $(function () {
+        //创建promise
+        function getData(url) {
+            let p = new Promise((resolve, reject) => {
+                $.get(url, function (res) {
+                    resolve(res.matchedProducts);
+                })
+            })
+            return p;
+        }
+
+        // getData("./json/01.json").then(function(res){
+        //     res = res.matchedProducts;
+        //     console.log(res);
+        //     var str = '';
+        //     for(var i = 0; i < res.length; i++){
+        //         str += `<li>序号：${res[i].collection_num}---${res[i].pro_title}</li>`;
+        //     }
+        //     $("#box").append(str);
+        //     return getData("./json/02.json");
+        // }).then(function(res){
+        //     res = res.matchedProducts;
+        //     console.log(res);
+        //     var str = '';
+        //     for(var i = 0; i < res.length; i++){
+        //         str += `<li>序号：${res[i].collection_num}---${res[i].pro_title}</li>`;
+        //     }
+        //     $("#box").append(str);
+        //     return getData("./json/03.json");
+        // }).then(function(res){
+        //     res = res.matchedProducts;
+        //     console.log(res);
+        //     var str = '';
+        //     for(var i = 0; i < res.length; i++){
+        //         str += `<li>序号：${res[i].collection_num}---${res[i].pro_title}</li>`;
+        //     }
+        //     $("#box").append(str);
+        // })
+
+        // 错误回调
+        // catch()
+
+        //渲染页面
+        function writeHtml(res) {
+            for (var i = 0; i < res.length; i++) {
+                var $li = $(`<li>序号：${res[i].collection_num},${res[i].pro_title}</li>`);
+                $('#box').append($li);
+            }
+        }
+
+        // Promise.all([getData("./json/01.json"), getData("./json/02.json"), getData("./json/03.json")]).then(function (res) {
+        //     console.log(res);
+        //     for (var i = 0; i < res.length; i++) {
+        //         res[i] = res[i].matchedProducts;
+        //         var str = '';
+        //         for (var j = 0; j < res[i].length; j++) {
+        //             str += `<li>序号${res[i][j].collection_num}---${res[i][j].pro_title}</li>`
+        //         }
+        //         $("#box").append(str);
+        //     }
+        // })
+
+        //将异步转同步
+        async function task() {
+            /*await getData("./json/01.json").then((res) => {
+                writeHtml(res);
+            })
+            await getData("./json/02.json").then((res) => {
+                writeHtml(res);
+            })
+            await getData("./json/03.json").then((res) => {
+                writeHtml(res);
+            })*/
+            let p1 = await getData("./json/01.json");
+            writeHtml(p1);
+            let p2 = await getData("./json/02.json");
+            writeHtml(p2);
+            let p3 = await getData("./json/03.json");
+            writeHtml(p3);
+        }
+        task();
+    })
+</script>
+
+</html>

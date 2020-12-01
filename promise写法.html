@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    onload = function () {
+
+
+        //es6 promise
+        //1.基础语法
+        function getData(){
+            //创建promise对象
+            //这个promise对象的参数是一个函数，这个函数有两个参数，
+            //resolve 成功的返回
+            //reject 失败的返回
+            let p = new Promise((resolve,reject) => {
+                 //模拟异步操作
+                setTimeout(() => {
+                    console.log(this);
+                    resolve("promise成功执行了");
+                    reject("您的promise失败了");
+                },1000)
+            })
+            //返回promise
+            return p;
+
+        //调用
+        //一定有    .then()
+        //.then()的参数是两个函数，第一函数接收成功的值，第二个函数接收失败的值
+        }
+        getData().then(function(res){
+            console.log(res);
+        },function(err){
+            console.log("error:",err);              
+        })
+    }
+
+</script>
+
+</html>

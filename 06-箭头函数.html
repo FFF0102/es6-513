@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>箭头函数</title>
+</head>
+
+<body>
+    <div id="box" style="width: 200px;height: 200px;background-color: pink;"></div>
+</body>
+<script>
+    //es6 箭头函数
+    //1.一句话的函数体，箭头函数的写法
+    let num = (i) => i + 1;
+    console.log(num(1));
+
+    //2.两句以上，箭头函数
+    //注意：两句话以上的写法，不能省略 大括号和return
+    let num1 = (x,y) => {
+        return x + y;
+    }
+    console.log(num1(5,5));
+
+    //3.箭头函数可以保留this的指向 *****
+    var cat = {
+        lives: 9,
+        jumps: function () {
+            console.log(this);//cat
+            this.lives--;
+            console.log(this.lives);
+        }
+    }
+    cat.jumps();//?8
+
+    // var cat = {
+    //     lives: 9,
+    //     jumps: () => {
+    //         console.log(this);//window箭头函数可以保留this的指针指向
+    //         this.lives--;
+    //         console.log(this.lives);//NaN
+    //     }
+    // }
+    // cat.jumps();//NaN
+
+
+    var oBox = document.getElementById("box");
+    //4.箭头函数的实际例子
+    //需求：点击方块，延时2秒，使背景变为蓝色
+    // oBox.onclick = function () {
+    //     setTimeout(function () {
+    //         console.log(this);//this指向出错 ，目前指向 window
+    //         // Cannot set property 'background' of undefined
+    //         // this.style.background = 'blue';
+    //     }, 2000);
+    // }
+
+    //使用箭头函数保留this指向
+    oBox.onclick = function () {
+        setTimeout(() => {
+            console.log(this);//this指向出错 ，目前指向 window
+            // Cannot set property 'background' of undefined
+            this.style.background = 'blue';
+        }, 2000);
+    }
+</script>
+
+</html>

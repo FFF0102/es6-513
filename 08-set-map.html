@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    //es6 set数据类型，特点
+    let myset = new Set();
+    [5, 4, 6, 5, 7, 8, 5, 8, 4, 6, 6, 5].forEach(x => myset.add(x));
+    // console.log(myset);
+
+    let set = new Set([1, 2, 3, 2, 3, 32, 3]);
+    // console.log(set);
+    //将set对象转数组
+    // console.log([...set]);
+
+
+    //es6 map 对象
+    //特点：相当于 object,key的值比较多样化
+    let m = new Map();
+    let o = new Object();
+
+    //给map对象添加数据
+    m.set("name", "齐天大圣");
+    m.set(1, "我是数字");
+    m.set(o, "我是对象");
+    m.set([1, 2, 3], "我是数组");
+    console.log(m);
+
+    //获取map对象中的值
+    console.log(m.get('name'));
+    console.log(m.get(o));
+
+    //判断map对象中是否有相应的键名
+    console.log(m.has("name"));
+    console.log(m.has(['aaa']));
+
+    //删除
+    m.delete("name");
+    console.log(m);
+</script>
+
+</html>

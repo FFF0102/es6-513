@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./js/jquery-3.5.1/jquery-3.5.1.min.js"></script>
+    <title>async</title>
+    <style>
+        #box {
+            border: 1px solid pink;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>旅游列表</h2>
+    <ul id="box">
+
+    </ul>
+</body>
+<script>
+    $(function () {
+
+        //async await  异步转同步，是一种语法糖结构
+
+        //1.实例
+        async function hello() {
+            return "hello async";
+        }
+        console.log(hello());//Promise
+        //对于有async 标识的函数，叫做异步函数，返回值是Promise对象
+        //Promise对象中包含两个值，一个是promise状态（成功或失败），另一个是传递的参数  value
+        //因为返回的是promise对象，调用时需要写.then()
+        hello().then((res) => {
+            console.log(res);
+        })
+
+        //2.实例
+        function text() {
+            let p = new Promise(resolve => {
+                setTimeout(() => {
+                    console.log("text await");
+                    resolve();
+                }, 2000)
+            })
+            return p;
+        }
+
+        /*
+       先输出text await，再输出hi world；
+       原因是  async  await 具有异步转同步的功能
+        */
+        async function say() {
+            await text();//等待 test函数返回结果后，程序才能继续运行
+            console.log('hi word');
+        }
+        // say();
+
+
+        //吃鸡的实例
+        /*
+        1.准备   2.炒了  3.炖鸡  4.放调料  5.装盘，吃鸡
+        */
+        //准备
+        function zhunbei() {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    console.log("1.准备，清晰，切块");
+                    resolve();
+                }, 2000);
+            })
+        }
+        //炒鸡
+        function chao() {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    console.log("2.炒鸡");
+                    resolve();
+                }, 1000);
+            })
+        }
+        //炖鸡
+        function dun() {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    console.log("3.炖鸡");
+                    resolve();
+                }, 3000);
+            })
+        }
+        function tiaoliao() {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    console.log("4.给鸡放调料");
+                    resolve();
+                }, 1000);
+            })
+        }
+        function eat() {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    console.log("5.吃鸡");
+                    resolve();
+                }, 2000);
+            })
+        }
+        //将异步转同步
+        async function zbc() {
+            console.log('start...');
+            await zhunbei();
+            await chao();
+            await dun();
+            await tiaoliao();
+            await eat();
+            console.log('end!');
+        }
+        zbc();
+
+
+
+        //创建promise
+        function getData(url) {
+            let p = new Promise((resolve, reject) => {
+                $.get(url, function (res) {
+                    resolve(res.matchedProducts);
+                })
+            })
+            return p;
+        }
+
+        // 错误回调
+        // catch()
+
+        //渲染页面
+        function writeHtml(res) {
+            for (var i = 0; i < res.length; i++) {
+                var $li = $(`<li>序号：${res[i].collection_num},${res[i].pro_title}</li>`);
+                $('#box').append($li);
+            }
+        }
+
+        //将异步转同步
+        async function task() {
+            /*await getData("./json/01.json").then((res) => {
+                writeHtml(res);
+            })
+            await getData("./json/02.json").then((res) => {
+                writeHtml(res);
+            })
+            await getData("./json/03.json").then((res) => {
+                writeHtml(res);
+            })*/
+            let p1 = await getData("./json/01.json");
+            writeHtml(p1);
+            let p2 = await getData("./json/02.json");
+            writeHtml(p2);
+            let p3 = await getData("./json/03.json");
+            writeHtml(p3);
+        }
+        task();
+    })
+</script>
+
+</html>
